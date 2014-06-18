@@ -11,3 +11,5 @@ for(var i = 0; i < tasks.length; i++) {
 }
 
 document.write('</ul>');
+
+console.log('message from myself - notes for week 2');
