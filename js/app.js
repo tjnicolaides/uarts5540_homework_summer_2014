@@ -6,36 +6,45 @@ var tasks = [
     {'name': 'Relax, chill out', 'complete' : true}
 ];
 
-
-document.write('<ul class="list-group">');
+var listHTML = '<ul class="list-group">';
+    console.log(listHTML);
 
 for(var i = 0; i < tasks.length; i++) {
     
     try {
         printTask(tasks[i]);
     } catch(error) {
-        console.log('you have an error: ' + error);
+        //console.log('you have an error: ' + error);
     }
    
+       console.log(listHTML);
+
 }
 
-document.write('</ul>');
+listHTML += '</ul>';
 
-console.log('message from myself - notes for week 2');
+    console.log(listHTML);
+
+
+
+
+
+
 
 
 function printTask(taskObj) {
-    console.log(taskObj.name == null);
     if(taskObj.name == null) {
         throw "You should have a task name in your object!";
     }
-    console.log(taskObj); 
     if(taskObj['complete']) { 
-        document.write('<li class="list-group-item">' + taskObj.name + ' <i class="glyphicon glyphicon-ok"></i></li>');
-
+        listHTML += '<li class="list-group-item">' + taskObj.name + ' <i class="glyphicon glyphicon-ok"></i></li>';
     } else {
-        document.write('<li class="list-group-item">' + taskObj.name + '</li>');
+        listHTML += '<li class="list-group-item">' + taskObj.name + '</li>';
     }
 }
 
-
+$(document).ready(function(){
+    
+    $('.panel-body').html(listHTML);
+    
+});
