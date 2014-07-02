@@ -24,11 +24,14 @@ $(document).ready(function(){
         if(taskObj.name == null) {
             throw "You should have a task name in your object!";
         }
+        var listHTML  = $('<li>').text(taskObj.name).addClass('list-group-item');
+        
         if(taskObj['complete']) { 
-            $('ul.list-group').append('<li class="list-group-item complete">' + taskObj.name + ' <i class="glyphicon glyphicon-ok"></i></li>');
-        } else {
-            $('ul.list-group').append('<li class="list-group-item">' + taskObj.name + '</li>');
+            listHTML.addClass('complete');
+            listHTML.append(' <i class="glyphicon glyphicon-ok"></i>');
         }
+        
+        $('ul.list-group').append(listHTML);
     }
     
 
