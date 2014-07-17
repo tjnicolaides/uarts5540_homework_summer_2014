@@ -3,9 +3,17 @@ var tasks = [];
     
 $(document).ready(function(){
 
-    addTask('Take out the trash', true);    
-    addTask('Do the laundry', true);    
-    addTask('Fix the sink');    
+    $.ajax({
+        'url': 'http://api.usergrid.com/tjnicolaides/mytasks/tasks',
+        'type': 'GET',
+        'success': function(data) {
+            console.log(data);
+            tasks = data.entities;
+            for(var i =0; i <= tasks.length; i++) {
+                printTask(tasks[i]);
+            }
+        }
+    });    
 
     $('.panel-body').append('<ul class="list-group"></ul>');
     
@@ -39,11 +47,9 @@ function removeCompleted() {
     $('li.complete').remove();
     var newTasks = [];
     for(var i = 0; i < tasks.length; i++) {
-        
        if(!tasks[i].complete) {
            newTasks.push(tasks[i]);
        }
-       
     }
     
     tasks = newTasks;
@@ -58,7 +64,7 @@ function Task(taskname, complete) {
     var deadline = new Date();
 	deadline.setDate(deadline.getDate() + 7);
 	
-    this.dueDate = deadline;
+    //this.dueDate = 'foo'; //deadline;
 }
 
 function addTask(taskname, complete) {
@@ -72,6 +78,16 @@ function addTask(taskname, complete) {
     // add object to HTML list
     printTask(task);
     
+    $.ajax({
+        'url': 'http://api.usergrid.com/tjnicolaides/mytasks/tasks',
+        'type': 'POST',
+        'data': JSON.stringify(task),
+        'success': function(data) {
+            console.log(data);
+            alert('Your task was added to Apigee!');
+        }
+    });
+    
 }
 
 function printTask(taskObj) {
@@ -83,6 +99,9 @@ function printTask(taskObj) {
     if(taskObj['complete']) { 
         listHTML.addClass('complete');
         listHTML.append(' <i class="glyphicon glyphicon-ok"></i>');
+    }
+    if(taskObj['uuid']) { 
+        listHTML.attr('data-uuid', taskObj['uuid']);
     }
     
     $('ul.list-group').append(listHTML);
